@@ -55,3 +55,8 @@
   font-size: 23px;
   margin-top: 5px;
 }
+
+.failure-view {
+  height: 120px;
+  width: 120px;
+}

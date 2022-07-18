@@ -57,6 +57,7 @@ class CowinDashboard extends Component {
           }),
         ),
       }
+      console.log(updatedData)
       this.setState({
         vaccinationData: updatedData,
         apiStatus: apiStatusConstants.success,
@@ -69,6 +70,17 @@ class CowinDashboard extends Component {
   appendLoader = () => (
     <div testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height={80} width={80} />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="failure-view-container">
+      <h1>Something Went Wrong</h1>
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/api-failure-view.png"
+        className="failure-view"
+        alt="failure view"
+      />
     </div>
   )
 
