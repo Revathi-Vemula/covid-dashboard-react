@@ -1,0 +1,57 @@
+.co-win-dashboard-container {
+  background-color: #161625;
+  height: 100%;
+  padding: 20px;
+  padding-left: 70px;
+}
+
+.circle-plus-icon {
+  height: 40px;
+  width: 40px;
+  color: #ffffff;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.heading-nav {
+  color: #2cc6c6;
+  font-family: 'Consolas';
+  font-size: 25px;
+  margin-top: 25px;
+}
+
+.vaccination-graphs-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-container {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #1c1c2b;
+}
+
+.heading-main {
+  color: #cbd5e1;
+  font-family: 'Consolas';
+  font-size: 25px;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+.heading {
+  color: #cbd5e1;
+  font-family: 'Consolas';
+  font-size: 23px;
+  margin-top: 5px;
+}
