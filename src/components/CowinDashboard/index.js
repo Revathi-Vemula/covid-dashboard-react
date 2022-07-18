@@ -13,9 +13,7 @@ const apiStatusConstants = {
 }
 class CowinDashboard extends Component {
   state = {
-    vaccinationCoverage: [],
-    vaccinationByAge: [],
-    vaccinationByGender: [],
+    vaccinationData: [],
     apiStatus: apiStatusConstants.initial,
   }
 
@@ -30,22 +28,40 @@ class CowinDashboard extends Component {
   })
 
   getVaccinationDetails = async () => {
-    this.setState({apiStatus: apiStatusConstants.inProgress})
-    const url = 'https://apis.ccbp.in/covid-vaccination-data'
-    const response = await fetch(url)
-    if (response.ok) {
-      const vaccinationDataRes = await response.json()
-      const formattedVaccinationDetails = vaccinationDataRes.last_7_days_vaccination.map(
-        eachDay => this.getFormattedDataOfLast7Days(eachDay),
-      )
+    this.setState({
+      apiStatus: apiStatusConstants.inProgress,
+    })
+
+    const covidVaccinationDataApiUrl =
+      'https://apis.ccbp.in/covid-vaccination-data'
+
+    const response = await fetch(covidVaccinationDataApiUrl)
+    if (response.ok === true) {
+      const fetchedData = await response.json()
+      const updatedData = {
+        last7DaysVaccination: fetchedData.last_7_days_vaccination.map(
+          eachDayData => ({
+            vaccineDate: eachDayData.vaccine_date,
+            dose1: eachDayData.dose_1,
+            dose2: eachDayData.dose_2,
+          }),
+        ),
+        vaccinationByAge: fetchedData.vaccination_by_age.map(range => ({
+          age: range.age,
+          count: range.count,
+        })),
+        vaccinationByGender: fetchedData.vaccination_by_gender.map(
+          genderType => ({
+            gender: genderType.gender,
+            count: genderType.count,
+          }),
+        ),
+      }
       this.setState({
-        vaccinationCoverage: formattedVaccinationDetails,
-        vaccinationByAge: vaccinationDataRes.vaccination_by_age,
-        vaccinationByGender: vaccinationDataRes.vaccination_by_gender,
+        vaccinationData: updatedData,
         apiStatus: apiStatusConstants.success,
       })
-    }
-    if (response.status === 401) {
+    } else {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
@@ -57,26 +73,19 @@ class CowinDashboard extends Component {
   )
 
   appendGraphs = () => {
-    const {
-      vaccinationCoverage,
-      vaccinationByAge,
-      vaccinationByGender,
-    } = this.state
+    const {vaccinationData} = this.state
 
     return (
       <>
-        <div className="chart-container">
-          <h1 className="heading">Vaccination Coverage</h1>
-          <VaccinationCoverage vaccinationData={vaccinationCoverage} />
-        </div>
-        <div className="chart-container">
-          <h1 className="heading">Vaccination by gender</h1>
-          <VaccinationByGender vaccinationByGenderData={vaccinationByGender} />
-        </div>
-        <div className="chart-container">
-          <h1 className="heading">Vaccination by age</h1>
-          <VaccinationByAge vaccinationByAgeData={vaccinationByAge} />
-        </div>
+        <VaccinationCoverage
+          vaccinationDayWiseData={vaccinationData.last7DaysVaccination}
+        />
+        <VaccinationByGender
+          vaccinationByGenderData={vaccinationData.vaccinationByAge}
+        />
+        <VaccinationByAge
+          vaccinationByAgeData={vaccinationData.vaccinationByGender}
+        />
       </>
     )
   }
@@ -103,7 +112,7 @@ class CowinDashboard extends Component {
           <img
             src="https://assets.ccbp.in/frontend/react-js/cowin-logo.png"
             className="circle-plus-icon"
-            alt="website-logo"
+            alt="website logo"
           />
           <h1 className="heading-nav">Co-WIN</h1>
         </nav>
