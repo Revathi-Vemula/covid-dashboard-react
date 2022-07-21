@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
+
 import VaccinationCoverage from '../VaccinationCoverage'
 import VaccinationByGender from '../VaccinationByGender'
 import VaccinationByAge from '../VaccinationByAge'
@@ -57,7 +58,7 @@ class CowinDashboard extends Component {
           }),
         ),
       }
-      console.log(updatedData)
+
       this.setState({
         vaccinationData: updatedData,
         apiStatus: apiStatusConstants.success,
@@ -93,10 +94,10 @@ class CowinDashboard extends Component {
           vaccinationDayWiseData={vaccinationData.last7DaysVaccination}
         />
         <VaccinationByGender
-          vaccinationByGenderData={vaccinationData.vaccinationByAge}
+          vaccinationByGenderData={vaccinationData.vaccinationByGender}
         />
         <VaccinationByAge
-          vaccinationByAgeData={vaccinationData.vaccinationByGender}
+          vaccinationByAgeData={vaccinationData.vaccinationByAge}
         />
       </>
     )
